@@ -1,0 +1,18 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of _customers">
+      <th scope="row">{{customer.index}}</th>
+      <td>{{customer.name}}</td>
+      <td [ngClass]="isNegativeBalance(customer.balance) ? 'debt': 'regular'" >{{customer.balance}}</td>
+      <td>{{customer.isActive}}</td>
+    </tr>
+  </tbody>
+</table>

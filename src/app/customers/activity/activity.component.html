@@ -1,0 +1,20 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Discount</th>
+      <th scope="col">Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of _customers">
+      <th scope="row">{{customer._id}}</th>
+      <td>{{customer.name}}</td>
+      <td>{{customer.balance}}</td>
+      <td>{{customer.discount}}</td>
+      <td [ngClass]="customer.isActive ? 'active': 'inactive'">{{customer.isActive}}</td>
+    </tr>
+  </tbody>
+</table>
