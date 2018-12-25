@@ -4,7 +4,7 @@ import { Http, Headers } from '@angular/http';
 @Injectable()
 export class ApiService {
 
-  public static serverEndpoint = 'https://api.myjson.com/bins';
+  public static serverEndpoint = 'http://localhost:3000';
 
   constructor(private _http: Http) { }
 
@@ -22,7 +22,6 @@ export class ApiService {
   }
 
   public put(url, data) {
-
     return this._http.put(ApiService.serverEndpoint + url, data, {
       headers: this.generateHeaders()
     });

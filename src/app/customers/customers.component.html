@@ -1,18 +1,70 @@
-<table class="table">
-  <thead class="thead-dark">
+<h5 class="card-title"><strong>Total Balance: </strong>${{balance}}</h5>
+<hr>
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-lg btn-light" (click)="onSelectedCategory('regular')">Regular</button>
+    <button type="button" class="btn btn-lg btn-light" (click)="onSelectedCategory('balance')">Balance</button>
+    <button type="button" class="btn btn-lg btn-light" (click)="onSelectedCategory('activity')">Activity</button>
+</div>
+<table class="table table-hover">
+  <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
+      <th scope="col">Company</th>
       <th scope="col">Balance</th>
-      <th scope="col">Activity</th>
+      <th scope="col">Is Active</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let customer of _customers">
-      <th scope="row">{{customer.index}}</th>
-      <td>{{customer.name}}</td>
-      <td>{{customer.balance}}</td>
-      <td>{{customer.isActive}}</td>
-    </tr>
+    <ng-container *ngIf="category == 'balance'">
+        <tr *ngFor="let customer of _customers" [ngClass]="isNegativeBalance(customer.balance) ? 'table-danger': ''" 
+        data-toggle="modal" data-target="#exampleModal" [class.selected]="customer === selectedCustomer" (click)="onSelect(customer)">
+          <th scope="row">{{customer.index}}</th>
+          <td>{{customer.name}}</td>
+          <td>{{customer.company}}</td>
+          <td>${{customer.balance}}</td>
+          <td>{{customer.isActive}}</td>
+        </tr>
+    </ng-container>
+    <ng-container *ngIf="category == 'activity'">
+        <tr *ngFor="let customer of _customers" [ngClass]="customer.isActive ? 'table-success': 'table-warning'"
+        data-toggle="modal" data-target="#exampleModal" [class.selected]="customer === selectedCustomer" (click)="onSelect(customer)">
+          <th scope="row">{{customer.index}}</th>
+          <td>{{customer.name}}</td>
+          <td>{{customer.company}}</td>
+          <td>${{customer.balance}}</td>
+          <td>{{customer.isActive}}</td>
+        </tr>
+    </ng-container>
+    <ng-container *ngIf="category == 'regular'">
+        <tr *ngFor="let customer of _customers"
+        data-toggle="modal" data-target="#exampleModal" [class.selected]="customer === selectedCustomer" (click)="onSelect(customer)">
+          <th scope="row">{{customer.index}}</th>
+          <td>{{customer.name}}</td>
+          <td>{{customer.company}}</td>
+          <td>${{customer.balance}}</td>
+          <td>{{customer.isActive}}</td>
+        </tr>
+    </ng-container>
   </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-customer-details [customer]="selectedCustomer"></app-customer-details>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

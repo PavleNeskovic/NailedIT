@@ -1,0 +1,33 @@
+<div class="container">
+    <h2>{{customer.name}}</h2>
+    <p><strong>Company: </strong> {{customer.company}} | {{customer.address}}  </p>
+    <p><strong>Contact: </strong> {{customer.phone}} &lt;<a href="mailto:{{customer.email}}">{{customer.email}}</a>&gt; </p>
+    <p><strong>About: </strong> {{customer.gender | titlecase}}, {{customer.age}} Y.O. </p>
+    <p><strong>Status: </strong>
+        <span *ngIf="customer.balance.startsWith('-')" class="tags-negative">IN DEBT</span>
+        <span *ngIf="customer.isActive" class="tags-positive">ACTIVE</span> 
+        <span *ngIf="!customer.isActive" class="tags-warning">INACTIVE</span>
+    </p>
+</div>
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><strong>Balance: </strong>${{customer.balance}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Registered on: {{customer.registered}}</h6>
+      <ng-container *ngIf="customer.balance.startsWith('-')">
+          <p class="card-text">This customer is in debt. You can send a voice message with a demand. Click 'Send a Demand Message' to send a voice message. </p>
+          <form action="http://127.0.0.1:3000/messages/demands" method="post">
+            <input type="hidden" name="name" value="{{customer.name}}">
+            <input type="hidden" name="balance" value="{{customer.balance}}">
+            <input type="submit" value="Send a Demand Message" class="card-link" >
+          </form>
+      </ng-container>
+      <ng-container *ngIf="!customer.isActive">
+          <p class="card-text">This customer is inactive. You can send a special offer voice message to this customer by clicking 'Send Discount Offer'. The offer includes ${{customer.discount}} discount that is calculated as 10% of their current balance. </p>
+          <form action="http://127.0.0.1:3000/messages/offers" method="post">
+            <input type="hidden" name="name" value="{{customer.name}}">
+            <input type="hidden" name="discount" value="{{customer.discount}}">
+            <input type="submit" value="Send Discount Offer Message" class="card-link" >
+          </form>
+      </ng-container>   
+    </div>
+  </div>
